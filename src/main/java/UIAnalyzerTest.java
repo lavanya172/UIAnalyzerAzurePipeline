@@ -11,7 +11,7 @@ import java.io.File;
 public class UIAnalyzerTest {
 
     @Test
-   public void testCompliance100percent(){
+   public void testUICompliance(){
        ChromeOptions opt = new ChromeOptions();
        //loading extension
        opt.addExtensions(new File("./resources/src.crx"));
@@ -36,6 +36,6 @@ public class UIAnalyzerTest {
        String actualValue = driver.findElement(By.id("myMeter")).getAttribute("value");
 
        System.out.println(actualValue);
-       Assert.assertEquals(actualValue, "100");
+       Assert.assertEquals(actualValue, "100", "UI is not 100% compliance with the given specification");
    }
 }
