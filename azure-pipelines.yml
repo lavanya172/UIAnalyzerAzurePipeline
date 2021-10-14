@@ -1,0 +1,43 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+- task: Cache@2
+  inputs:
+    key: '"funcs" | maven |"$(Agent.OS)" | **/pom.xml'
+    restoreKeys: |
+    path: $(MAVEN_CACHE_FOLDER)
+  displayName: Cache Maven local repo
+
+- task: MavenAuthenticate@0
+  displayName: Authenticate Maven to Artifacts feed
+  inputs:
+    artifactsFeeds: artifacts-maven
+    #mavenServiceConnections: serviceConnection1, serviceConnection2 # Optional
+
+- task: Maven@3
+  displayName: Maven deploy into Artifact feed
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
