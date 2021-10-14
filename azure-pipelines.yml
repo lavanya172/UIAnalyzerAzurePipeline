@@ -9,6 +9,10 @@ trigger:
 pool:
   vmImage: windows-2019
 
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -37,10 +41,6 @@ steps:
   inputs:
     artifactsFeeds: artifacts-maven
     #mavenServiceConnections: serviceConnection1, serviceConnection2 # Optional
-
-variables:
-  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
-  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 - task: Maven@3
   displayName: Maven deploy into Artifact feed
