@@ -14,8 +14,6 @@ variables:
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
 - task: PowerShell@2
   inputs:
