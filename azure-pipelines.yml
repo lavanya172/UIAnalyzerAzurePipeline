@@ -1,0 +1,49 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-2019
+
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/testcache1/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'New-Item -ItemType directory -Path $(MAVEN_CACHE_FOLDER)'
+
+- task: Cache@2
+  inputs:
+    key: mykeyazureunique
+    restoreKeys: mykeyazureunique
+    path: $(MAVEN_CACHE_FOLDER)
+  displayName: Cache Maven local repo
+
+- task: MavenAuthenticate@0
+  displayName: Authenticate Maven to Artifacts feed
+  inputs:
+    artifactsFeeds: artifacts-maven
+    #mavenServiceConnections: serviceConnection1, serviceConnection2 # Optional
+
+- task: Maven@3
+  displayName: Maven deploy into Artifact feed
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
