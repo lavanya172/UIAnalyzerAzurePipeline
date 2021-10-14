@@ -10,17 +10,12 @@ pool:
   vmImage: windows-2019
 
 variables:
-  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/testcache/.m2/repository
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/testcache1/.m2/repository
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
 
 - task: PowerShell@2
   inputs:
@@ -29,10 +24,8 @@ steps:
 
 - task: Cache@2
   inputs:
-    key: 'maven | "$(Agent.OS)" | **/pom.xml'
-    restoreKeys: |
-      maven | "$(Agent.OS)"
-      maven
+    key: mykeyazureunique
+    restoreKeys: mykeyazureunique
     path: $(MAVEN_CACHE_FOLDER)
   displayName: Cache Maven local repo
 
