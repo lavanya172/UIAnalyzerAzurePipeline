@@ -37,5 +37,8 @@ public class UIAnalyzerTest {
 
        System.out.println(actualValue);
        Assert.assertEquals(actualValue, "100", "UI is not 100% compliance with the given specification");
+       if(!actualValue.equals("100")) {
+           System.out.println("Recommendation: \n UI Analyzer Test Heading \n fontSize: 24px; ");
+       }
    }
 }
