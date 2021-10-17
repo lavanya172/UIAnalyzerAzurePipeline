@@ -36,7 +36,7 @@ public class UIAnalyzerTest {
        String actualValue = driver.findElement(By.id("myMeter")).getAttribute("value");
 
        System.out.println(actualValue);
-       Assert.assertEquals(actualValue, "100", "UI is not 100% compliance with the specification. Recommendation: \n UI Analyzer Test Heading \n fontSize: 24px;");
+       Assert.assertEquals(actualValue, "100", "Reason: UI is not 100% compliance with the specification. \nRecommendation: \n\t\t UI Analyzer Test Heading \n\t\t fontSize: 24px; \n\n");
 //       if(!actualValue.equals("100")) {
 //           System.out.println("Recommendation: \n UI Analyzer Test Heading \n fontSize: 24px; ");
 //       }
